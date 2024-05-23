@@ -41,8 +41,26 @@ app.post("/login", (req,res)=>{
         }
     })
 
-
 })
+
+    app.post("/cadastrar", (req,res)=>{
+        const newusername = req.body.Novousuario
+        const newpassword = req.body.Novasenha
+
+    db.query(' INSERT INTO usuario (nome, senha) VALUES (?, ?)', [newusername, newpassword], (error, results) => {
+        if (error){
+            console.log(error)
+        } else { 
+            console.log(results)
+            res.sendFile(__dirname + '/login.html')
+        }
+    })
+    })
+
+    app.get('/cadastro', (req, res)=>{
+        res.sendFile(__dirname + '/cadastro.html')
+        })
+
 
 app.listen(port, ()=> {
     console.log(`Servidor rodando no endereço: https://localhost:${port}`)
