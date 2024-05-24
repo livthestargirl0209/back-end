@@ -26,6 +26,10 @@ app.get("/", (req,res)=>{
     res.sendFile(__dirname + '/login.html')
 })
 
+app.get('/cadastro', (req, res)=>{
+    res.sendFile(__dirname + '/cadastro.html')
+    })
+
 app.post("/login", (req,res)=>{
     const username = req.body.usuario
     const password = req.body.senha
@@ -34,9 +38,13 @@ app.post("/login", (req,res)=>{
         if (results.length > 0){
             const passwordbd = results[0].senha
             console.log(passwordbd)
-            res.sendFile(__dirname + '/home.html')
+            if(password == passwordbd){
+                res.sendFile(__dirname + '/home.html')
+            }else{
+                res.sendFile(__dirname + '/erro.html')
+            }
         } else {
-            console.log('Usuario não cadastrado')
+            console.log(error,'Usuario não cadastrado')
             res.sendFile(__dirname + '/erro.html')
         }
     })
@@ -46,19 +54,25 @@ app.post("/login", (req,res)=>{
     app.post("/cadastrar", (req,res)=>{
         const newusername = req.body.Novousuario
         const newpassword = req.body.Novasenha
+        const confirmpassword = req.body.Confirmpassword
 
+        if (newpassword === confirmpassword){
     db.query(' INSERT INTO usuario (nome, senha) VALUES (?, ?)', [newusername, newpassword], (error, results) => {
+
         if (error){
-            console.log(error)
+            console.log('erro ao cadastrar', error)
         } else { 
-            console.log(results)
-            res.sendFile(__dirname + '/login.html')
+            console.log('cadastrado com sucesso', results)
+            res.sendFile(__dirname + '/deucerto.html')
         }
     })
+}else{
+    console.log('senhas não coincidem')
+}
     })
 
-    app.get('/cadastro', (req, res)=>{
-        res.sendFile(__dirname + '/cadastro.html')
+    app.post('/logar', (req, res)=>{
+        res.sendFile(__dirname + '/login.html')
         })
 
 
