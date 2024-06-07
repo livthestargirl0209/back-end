@@ -1,0 +1,14 @@
+*{
+padding: 10px;
+}
+
+.container{
+    text-align: center;
+    margin-top: 250px;
+}
+
+input[type=text], input[type=password] {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+  
